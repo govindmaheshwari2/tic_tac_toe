@@ -1,6 +1,5 @@
 import 'package:dyte_core/dyte_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 
@@ -32,16 +31,8 @@ class RoomStateNotifier extends GetxController
   // Symbol local user is going to use.
   String localSymbol = "";
 
-  RoomStateNotifier() {
-    dyteClient.value.addMeetingRoomEventsListener(this);
-    dyteClient.value.addParticipantEventsListener(this);
-    dyteClient.value.addChatEventsListener(this);
-    final meetingInfo = DyteMeetingInfoV2(
-        authToken:
-            '---TOKEN HERE---',
-        enableAudio: false,
-        enableVideo: true);
-    dyteClient.value.init(meetingInfo);
+  RoomStateNotifier(){
+    // TODO: meeting init code here
   }
 
   sendMessage() {
@@ -68,160 +59,97 @@ class RoomStateNotifier extends GetxController
 
   @override
   void onMeetingInitCompleted() {
-    dyteClient.value.joinRoom();
+    // TODO: onMeetingInitCompleted code here
   }
 
   @override
   void onMeetingRoomJoinCompleted() {
-    dyteClient.value.localUser.setDisplayName("Govind");
-    roomJoin.value = true;
+    // TODO: onMeetingRoomJoinCompleted code here
   }
 
   @override
   void onMeetingRoomLeaveStarted() {
-    roomJoin.value = false;
-    dyteClient.value.removeMeetingRoomEventsListener(this);
-    dyteClient.value.removeParticipantEventsListener(this);
-    dyteClient.value.removeChatEventsListener(this);
-    Get.delete<RoomStateNotifier>();
-    Get.back();
+    // TODO: onMeetingRoomLeaveStarted code here
   }
 
   @override
   void onParticipantJoin(DyteJoinedMeetingParticipant participant) {
-    if (participant.userId != dyteClient.value.localUser.userId) {
-      remotePeer.value = participant;
-      assignSymbol();
-    }
+    // TODO: onParticipantJoin code here
   }
 
   @override
   void onParticipantLeave(DyteJoinedMeetingParticipant participant) {
-    if (participant.userId != dyteClient.value.localUser.userId &&
-        remotePeer.value != null) {
-      remotePeer.value = null;
-      Get.defaultDialog(
-          barrierDismissible: false,
-          onWillPop: () async {
-            return false;
-          },
-          title: "Opponent Leave this game.",
-          textConfirm: "Leave",
-          middleText: "",
-          confirmTextColor: Colors.white,
-          onConfirm: () {
-            dyteClient.value.leaveRoom();
-            Get.back();
-          });
-    }
+    // TODO: onParticipantLeave code here
   }
 
   @override
   void onNewChatMessage(DyteChatMessage message) {
-    if (message.userId == dyteClient.value.localUser.userId) {
-      return;
-    }
-    DyteTextMessage textMessage = message as DyteTextMessage;
-    List<String> temp = textMessage.message
-        .replaceFirst("[", "")
-        .replaceFirst("]", "")
-        .split(", ");
-    displayExOh.value = temp;
-    localUserTurn.toggle();
-    boxCount.value++;
-    checkWinner();
+    // TODO: onNewChatMessage code here
   }
 
   @override
   void onMeetingInitFailed(Exception exception) {
-    print("onMeetingInitFailed $exception");
-  }
-
-  @override
-  void onMeetingInitStarted() {
-    // TODO: implement onMeetingInitStarted
-  }
-
-  @override
-  void onMeetingRoomDisconnected() {
-    // TODO: implement onMeetingRoomDisconnected
+    debugPrint("onMeetingInitFailed $exception");
   }
 
   @override
   void onMeetingRoomJoinFailed(Exception exception) {
-    print("onMeetingRoomJoinFailed $exception");
+    debugPrint("onMeetingRoomJoinFailed $exception");
   }
 
   @override
   void onMeetingRoomJoinStarted() {
-    print("onMeetingRoomJoinStarted");
+    debugPrint("onMeetingRoomJoinStarted");
   }
 
   @override
-  void onMeetingRoomLeaveCompleted() {
-    // TODO: implement onMeetingRoomLeaveCompleted
-  }
+  void onMeetingInitStarted() {}
 
   @override
-  void onActiveParticipantsChanged(List<DyteJoinedMeetingParticipant> active) {
-    // TODO: implement onActiveParticipantsChanged
-  }
+  void onMeetingRoomDisconnected() {}
 
   @override
-  void onActiveSpeakerChanged(DyteJoinedMeetingParticipant participant) {
-    // TODO: implement onActiveSpeakerChanged
-  }
+  void onMeetingRoomLeaveCompleted() {}
+
+  @override
+  void onActiveParticipantsChanged(List<DyteJoinedMeetingParticipant> active) {}
+
+  @override
+  void onActiveSpeakerChanged(DyteJoinedMeetingParticipant participant) {}
 
   @override
   void onAudioUpdate(
-      bool audioEnabled, DyteJoinedMeetingParticipant participant) {
-    // TODO: implement onAudioUpdate
-  }
+      bool audioEnabled, DyteJoinedMeetingParticipant participant) {}
 
   @override
-  void onNoActiveSpeaker() {
-    // TODO: implement onNoActiveSpeaker
-  }
+  void onNoActiveSpeaker() {}
 
   @override
-  void onParticipantPinned(DyteJoinedMeetingParticipant participant) {
-    // TODO: implement onParticipantPinned
-  }
+  void onParticipantPinned(DyteJoinedMeetingParticipant participant) {}
 
   @override
-  void onParticipantUnpinned(DyteJoinedMeetingParticipant participant) {
-    // TODO: implement onParticipantUnpinned
-  }
+  void onParticipantUnpinned(DyteJoinedMeetingParticipant participant) {}
 
   @override
-  void onScreenShareEnded(DyteScreenShareMeetingParticipant participant) {
-    // TODO: implement onScreenShareEnded
-  }
+  void onScreenShareEnded(DyteScreenShareMeetingParticipant participant) {}
 
   @override
-  void onScreenShareStarted(DyteScreenShareMeetingParticipant participant) {
-    // TODO: implement onScreenShareStarted
-  }
+  void onScreenShareStarted(DyteScreenShareMeetingParticipant participant) {}
 
   @override
-  void onScreenSharesUpdated() {
-    // TODO: implement onScreenSharesUpdated
-  }
+  void onScreenSharesUpdated() {}
 
   @override
   void onUpdate(DyteRoomParticipants participants) {}
 
   @override
   void onVideoUpdate(
-      bool videoEnabled, DyteJoinedMeetingParticipant participant) {
-    // TODO: implement onVideoUpdate
-  }
+      bool videoEnabled, DyteJoinedMeetingParticipant participant) {}
 
   @override
-  void onChatUpdates(List<DyteChatMessage> messages) {
-    // TODO: implement onChatUpdates
-  }
+  void onChatUpdates(List<DyteChatMessage> messages) {}
 
+// Checking for all the winning and draw condition.
   checkWinner() {
     // 1st row
     if (displayExOh[0] == displayExOh[1] &&
@@ -282,6 +210,7 @@ class RoomStateNotifier extends GetxController
     }
   }
 
+// Showing winning dialog
   _showWinnerDialog(String winner) {
     if (winner == "X") {
       exScore.value++;
@@ -311,6 +240,7 @@ class RoomStateNotifier extends GetxController
     displayExOh.value = ['', '', '', '', '', '', '', '', ''];
   }
 
+// OnUser tap the game screen
   tapped(int index) {
     if (!localUserTurn.value) {
       return;
@@ -328,6 +258,7 @@ class RoomStateNotifier extends GetxController
     checkWinner();
   }
 
+//Assigning symbol to local user.
   assignSymbol() {
     List<String> peer = [
       dyteClient.value.localUser.userId,

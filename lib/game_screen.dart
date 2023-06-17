@@ -1,4 +1,3 @@
-import 'package:dyte_core/dyte_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
@@ -147,27 +146,27 @@ class HomePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        if (roomStateNotifier.roomJoin.value) // Check if room is join by the localUser or not.
+                        // if (roomStateNotifier.roomJoin.value) // Check if room is join by the localUser or not.
                           SizedBox(
                             height: 100,
                             width: 100,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(17),
-                              child: const VideoView(     // Local user
-                                isSelfParticipant: true,
-                              ),
+                              // child: const VideoView(     // Local user
+                              //   isSelfParticipant: true,
+                              // ),
                             ),
                           ),
-                        if (roomStateNotifier.remotePeer.value != null)
+                        // if (roomStateNotifier.remotePeer.value != null)
                           SizedBox(
                             height: 100,
                             width: 100,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(17),
-                              child: VideoView(         // Remote user
-                                meetingParticipant:
-                                    roomStateNotifier.remotePeer.value,
-                              ),
+                              // child: VideoView(         // Remote user
+                              //   meetingParticipant:
+                              //       roomStateNotifier.remotePeer.value,
+                              // ),
                             ),
                           ),
                       ],
