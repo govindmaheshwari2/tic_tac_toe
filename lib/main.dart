@@ -58,8 +58,30 @@ class JoimRoom extends StatelessWidget {
             GestureDetector(
                 onTap: () async {
                   if (await getPermissions()) {
-                    Get.put(RoomStateNotifier());
+                    // ignore: use_build_context_synchronously
+                   await showDialog(context: context, builder: (context){
+                      TextEditingController controller = TextEditingController();
+                      return AlertDialog(
+                        title: const Text("Enter Name"),
+                        content: TextField(
+                          controller: controller,
+                          
+                        ),
+                        actions: [
+                          ElevatedButton(onPressed: (){
+                            if(controller.text.trim().isEmpty){
+                              Get.snackbar("Enter Name", "Please Enter name to join the game",
+        snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
+                            }else{
+                              Get.back();
+    Get.put(RoomStateNotifier(controller.text.trim()));
                     Get.to(const HomePage());
+                            }
+
+                          }, child: const Text("JOIN"))
+                        ],
+                      );
+                    });
                   }
                 },
                 child: Container(

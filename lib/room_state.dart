@@ -31,14 +31,18 @@ class RoomStateNotifier extends GetxController
   Rx<bool> localUserTurn = false.obs;
   // Symbol local user is going to use.
   String localSymbol = "";
+  // Username is used to assign value in room.
+  late String username;
 
-  RoomStateNotifier() {
+
+  RoomStateNotifier(String name) {
+    username = name;
     dyteClient.value.addMeetingRoomEventsListener(this);
     dyteClient.value.addParticipantEventsListener(this);
     dyteClient.value.addChatEventsListener(this);
     final meetingInfo = DyteMeetingInfoV2(
-        authToken:
-            '---TOKEN HERE---',
+        authToken:"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6ImNiODliMzFkLTU0ZmEtNDE1YS1iZTFlLTk3NzA0Njc1M2Q0MyIsIm1lZXRpbmdJZCI6ImJiYjRiM2E2LWE4MTMtNDgwZC1hOWY5LWRhZTcxNGZjNmEwZiIsInBhcnRpY2lwYW50SWQiOiJhYWEzOWQ1Ni0yMWE1LTQwZTctODhhYy1mNWI1ZjI1MTQ2Y2IiLCJwcmVzZXRJZCI6ImM4YjU2YjczLWMxNTItNDZlYS1hMDY0LWQxZjAzOGRkYjI2NiIsImlhdCI6MTY4NzA2OTE2MSwiZXhwIjoxNjk1NzA5MTYxfQ.iBUWPvW_88hzmAHmiEeX3btmYJWFtSaRRdrHpbC-S_i5eSbNAqHTkuPF0hgG-qnyOOEk_nZscuFqpdnI91N2tcvhh4OMfjAowwEJmrd_WSrg2SyaoMbwxDNClP-xRgUac6-TtN0ezVrMsmBW1qUvJALC6-kQZ8_tt503Sn8bJQGVA4eOu22nqSKk2K2DkysHkVHNhTzJL22o6-TWoo0B_sPHTgbLlQfB90G3XVl2LP-_2sRFqN-gN6MUCX7aRLwbey1eIHDUfzSA9kQuePzBlGzaTUl4Y6N4Nxdjb7yW_C2-1TaLjMzC1-XaFKAqwTgKk-0JYwnOtlbTfpvVaICGCg",
+            // '---TOKEN HERE---',
         enableAudio: false,
         enableVideo: true);
     dyteClient.value.init(meetingInfo);
@@ -68,12 +72,12 @@ class RoomStateNotifier extends GetxController
 
   @override
   void onMeetingInitCompleted() {
+    dyteClient.value.localUser.setDisplayName(username);
     dyteClient.value.joinRoom();
   }
 
   @override
   void onMeetingRoomJoinCompleted() {
-    dyteClient.value.localUser.setDisplayName("Govind");
     roomJoin.value = true;
   }
 
@@ -128,7 +132,7 @@ class RoomStateNotifier extends GetxController
         .split(", ");
     displayExOh.value = temp;
     localUserTurn.toggle();
-    boxCount.value++;
+    boxCount.value = displayExOh.where((p0) => p0!="").length;
     checkWinner();
   }
 
@@ -290,20 +294,24 @@ class RoomStateNotifier extends GetxController
     }
     if (localSymbol == winner) {
       Get.snackbar("You Won", "Let's continue this winning streak.",
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
       localUserTurn.value = true;
     } else {
-      Get.snackbar("You Lose", "All the best for next round.",
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("You Lost", "All the best for next round.",
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
       localUserTurn.value = false;
     }
-    _clearBoard();
+    Future.delayed(const Duration(seconds: 3), () {
+      _clearBoard();
+    });
   }
 
   _showDrawDialog() {
     Get.snackbar("Game Draw", "All the best for next round.",
-        snackPosition: SnackPosition.BOTTOM);
-    _clearBoard();
+        snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
+    Future.delayed(const Duration(seconds: 3), () {
+      _clearBoard();
+    });
   }
 
   _clearBoard() {
@@ -323,7 +331,7 @@ class RoomStateNotifier extends GetxController
       displayExOh[index] = localSymbol;
     }
     sendMessage();
-    boxCount.value++;
+    boxCount.value = displayExOh.where((p0) => p0!="").length;
     localUserTurn.toggle();
     checkWinner();
   }
