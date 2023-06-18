@@ -41,8 +41,7 @@ class RoomStateNotifier extends GetxController
     dyteClient.value.addParticipantEventsListener(this);
     dyteClient.value.addChatEventsListener(this);
     final meetingInfo = DyteMeetingInfoV2(
-        authToken:"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdJZCI6ImNiODliMzFkLTU0ZmEtNDE1YS1iZTFlLTk3NzA0Njc1M2Q0MyIsIm1lZXRpbmdJZCI6ImJiYjRiM2E2LWE4MTMtNDgwZC1hOWY5LWRhZTcxNGZjNmEwZiIsInBhcnRpY2lwYW50SWQiOiJhYWEzOWQ1Ni0yMWE1LTQwZTctODhhYy1mNWI1ZjI1MTQ2Y2IiLCJwcmVzZXRJZCI6ImM4YjU2YjczLWMxNTItNDZlYS1hMDY0LWQxZjAzOGRkYjI2NiIsImlhdCI6MTY4NzA2OTE2MSwiZXhwIjoxNjk1NzA5MTYxfQ.iBUWPvW_88hzmAHmiEeX3btmYJWFtSaRRdrHpbC-S_i5eSbNAqHTkuPF0hgG-qnyOOEk_nZscuFqpdnI91N2tcvhh4OMfjAowwEJmrd_WSrg2SyaoMbwxDNClP-xRgUac6-TtN0ezVrMsmBW1qUvJALC6-kQZ8_tt503Sn8bJQGVA4eOu22nqSKk2K2DkysHkVHNhTzJL22o6-TWoo0B_sPHTgbLlQfB90G3XVl2LP-_2sRFqN-gN6MUCX7aRLwbey1eIHDUfzSA9kQuePzBlGzaTUl4Y6N4Nxdjb7yW_C2-1TaLjMzC1-XaFKAqwTgKk-0JYwnOtlbTfpvVaICGCg",
-            // '---TOKEN HERE---',
+        authToken: '---TOKEN HERE---',
         enableAudio: false,
         enableVideo: true);
     dyteClient.value.init(meetingInfo);
