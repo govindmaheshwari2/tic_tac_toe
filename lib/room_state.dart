@@ -30,8 +30,11 @@ class RoomStateNotifier extends GetxController
   Rx<bool> localUserTurn = false.obs;
   // Symbol local user is going to use.
   String localSymbol = "";
+  // Username is used to assign value in room.
+  late String username;
 
-  RoomStateNotifier(){
+  RoomStateNotifier(String name) {
+    username = name;
     // TODO: meeting init code here
   }
 
@@ -219,20 +222,24 @@ class RoomStateNotifier extends GetxController
     }
     if (localSymbol == winner) {
       Get.snackbar("You Won", "Let's continue this winning streak.",
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
       localUserTurn.value = true;
     } else {
-      Get.snackbar("You Lose", "All the best for next round.",
-          snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("You Lost", "All the best for next round.",
+          snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
       localUserTurn.value = false;
     }
-    _clearBoard();
+    Future.delayed(const Duration(seconds: 3), () {
+      _clearBoard();
+    });
   }
 
   _showDrawDialog() {
     Get.snackbar("Game Draw", "All the best for next round.",
-        snackPosition: SnackPosition.BOTTOM);
-    _clearBoard();
+        snackPosition: SnackPosition.BOTTOM,backgroundColor: Colors.black,colorText: Colors.white);
+    Future.delayed(const Duration(seconds: 3), () {
+      _clearBoard();
+    });
   }
 
   _clearBoard() {
@@ -253,7 +260,7 @@ class RoomStateNotifier extends GetxController
       displayExOh[index] = localSymbol;
     }
     sendMessage();
-    boxCount.value++;
+    boxCount.value = displayExOh.where((p0) => p0!="").length;
     localUserTurn.toggle();
     checkWinner();
   }

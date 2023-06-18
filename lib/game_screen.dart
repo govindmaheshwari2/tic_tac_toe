@@ -147,27 +147,46 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         // if (roomStateNotifier.roomJoin.value) // Check if room is join by the localUser or not.
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(17),
-                              // child: const VideoView(     // Local user
-                              //   isSelfParticipant: true,
-                              // ),
-                            ),
+                          // Local user video tile and name
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(17),
+                                  // child: const VideoView(      // Local user video tile
+                                  //   isSelfParticipant: true,
+                                  // ),
+                                ),
+                              ),
+                              // Text(
+                              //   roomStateNotifier.dyteClient.value.localUser.name, // Local user name
+                              //   style: const TextStyle(color: Colors.white),
+                              //   )
+                            ],
                           ),
                         // if (roomStateNotifier.remotePeer.value != null)
-                          SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(17),
-                              // child: VideoView(         // Remote user
-                              //   meetingParticipant:
-                              //       roomStateNotifier.remotePeer.value,
-                              // ),
-                            ),
+                        // Remote user video tile and name
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(17),
+                                  // child: VideoView(         // Remote user video tile
+                                  //   meetingParticipant:
+                                  //       roomStateNotifier.remotePeer.value,
+                                  // ),
+                                ),
+                              ),
+                              // Text(
+                              //   roomStateNotifier.remotePeer.value!.name,   // Remote user name
+                              // style: const TextStyle(color: Colors.white),)
+                            ],
                           ),
                       ],
                     ),
